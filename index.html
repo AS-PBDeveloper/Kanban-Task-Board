@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kanban Board</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/mobile-drag-drop@2.3.0-rc.2/default.css"
+    />
+    <script src="https://unpkg.com/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="main-title">Kanban Board</h1>
+      <p class="subtitle">
+        Plan your work, track progress, and get things done.
+      </p>
+    </header>
+    <main>
+      <section class="toolbar" aria-label="Search and filter tasks">
+        <label class="search-control">
+          <span class="sr-only">Search tasks by title</span>
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Search tasks by title..."
+          />
+        </label>
+        <label>
+          <span class="sr-only">Filter by priority</span>
+          <select id="priority-filter">
+            <option value="all">All priorities</option>
+            <option value="low">Low priority</option>
+            <option value="medium">Medium priority</option>
+            <option value="high">High priority</option>
+          </select>
+        </label>
+        <label>
+          <span class="sr-only">Filter by status</span>
+          <select id="status-filter">
+            <option value="all">All statuses</option>
+            <option value="todo">To Do</option>
+            <option value="progress">In Progress</option>
+            <option value="done">Completed</option>
+          </select>
+        </label>
+        <button class="primary-btn" id="new-task-btn" type="button">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i> Add task
+        </button>
+      </section>
+
+      <section class="board" aria-label="Kanban board">
+        <div class="column" id="todo-column">
+          <div class="column-header">
+            <h2 class="todo-title">
+              To Do <span class="count todo-count-bg" id="todo-count">0</span>
+            </h2>
+          </div>
+          <div
+            class="task-list"
+            id="todo"
+            data-status="todo"
+            aria-live="polite"
+          ></div>
+        </div>
+        <div class="column" id="progress-column">
+          <div class="column-header">
+            <h2 class="progress-title">
+              In Progress
+              <span class="count progress-count-bg" id="progress-count">0</span>
+            </h2>
+          </div>
+          <div
+            class="task-list"
+            id="progress"
+            data-status="progress"
+            aria-live="polite"
+          ></div>
+        </div>
+        <div class="column" id="done-column">
+          <div class="column-header">
+            <h2 class="done-title">
+              Completed
+              <span class="count done-count-bg" id="done-count">0</span>
+            </h2>
+          </div>
+          <div
+            class="task-list"
+            id="done"
+            data-status="done"
+            aria-live="polite"
+          ></div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="task-dialog" aria-labelledby="dialog-title">
+      <form id="task-form">
+        <div class="dialog-header">
+          <h2 id="dialog-title">Add task</h2>
+          <button
+            class="icon-btn"
+            id="close-dialog"
+            type="button"
+            aria-label="Close dialog"
+          >
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+        <label for="task-title">Title <span aria-hidden="true">*</span></label>
+        <input
+          id="task-title"
+          name="title"
+          type="text"
+          maxlength="120"
+          required
+        />
+        <label for="task-description">Description</label>
+        <textarea
+          id="task-description"
+          name="description"
+          rows="3"
+          maxlength="500"
+        ></textarea>
+        <div class="form-row">
+          <div>
+            <label for="task-priority">Priority</label>
+            <select id="task-priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div>
+            <label for="task-due-date">Due date</label>
+            <input id="task-due-date" name="dueDate" type="date" />
+          </div>
+        </div>
+        <label for="task-status">Status</label>
+        <select id="task-status" name="status">
+          <option value="todo">To Do</option>
+          <option value="progress">In Progress</option>
+          <option value="done">Completed</option>
+        </select>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="dialog-actions">
+          <button class="secondary-btn" id="cancel-dialog" type="button">
+            Cancel
+          </button>
+          <button class="primary-btn" type="submit">Save task</button>
+        </div>
+      </form>
+    </dialog>
+    <script src="script.js"></script>
+  </body>
+</html>
